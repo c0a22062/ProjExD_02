@@ -13,6 +13,11 @@ def main():
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10)  # 半径10、赤色の円
     bb_img.set_colorkey((0, 0, 0))  # 黒の背景を透過
     x, y = random.randint(0,1600), random.randint(0, 900)
+    vx, vy = +1, +1
+    screen.blit(bb_img, [x, y])
+    bb_rct = bb_img.get_rect()
+    bb_rct.center = (x, y)
+
     tmr = 0
 
     while True:
@@ -21,10 +26,12 @@ def main():
                 return 0
 
         tmr += 1
-        x, y = random.randint(0,1600), random.randint(0, 900)
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        screen.blit(bb_img, [x, y])
+        bb_rct.move_ip(vx, vy)
+        screen.blit(bb_img, bb_rct)
+        
+
 
 
         pg.display.update()
