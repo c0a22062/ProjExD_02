@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 import random
+import time
 
 
 delta = {
@@ -11,7 +12,7 @@ delta = {
         }
 
 
-def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect):
+def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect) -> tuple[bool,bool]:
     """
     オブジェクトが画面内or画面外を判定し、真理値タプルを返す関数
     引数１：画面がSurafaceのRect
@@ -25,15 +26,28 @@ def check_bound(scr_rct: pg.Rect, obj_rct: pg.Rect):
         tate = False
     return yoko, tate
 
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((1600, 900))
     clock = pg.time.Clock()
     bg_img = pg.image.load("ex02-20230425/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02-20230425/fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
-    kk_rct = kk_img.get_rect()
+    kk_img_ov = pg.image.load("ex02-20230425/fig/8.png")
+    kk_img_ov = pg.transform.rotozoom(kk_img_ov, 0, 10.0)
+    kk_img_u = pg.transform.rotozoom(kk_img, 90, 2.0)
+    kk_img_ru = pg.transform.rotozoom(kk_img, 45, 2.0)
+    kk_img_def = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img_rd = pg.transform.rotozoom(kk_img, -45, 2.0)
+    kk_img_rev = pg.transform.flip(kk_img, True, False)
+    kk_img_lu = pg.transform.rotozoom(kk_img_rev, 45, 2.0)
+    kk_img_l = pg.transform.rotozoom(kk_img_rev, 0, 2.0)
+    kk_img_ld = pg.transform.rotozoom(kk_img_rev, -45, 2.0)
+    kk_img_d = pg.transform.rotozoom(kk_img, 90, 2.0)
+
+    kk_rct = kk_img_def.get_rect()
     kk_rct.center = (900, 400)
+
 
 
     bb_img = pg.Surface((20, 20))  # 黒い四角を作成
@@ -47,6 +61,7 @@ def main():
 
     tmr = 0
 
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -58,6 +73,7 @@ def main():
         for k,mv in delta.items():
             if key_lst[k]:
                 kk_rct.move_ip(mv)
+
         if check_bound(screen.get_rect(), kk_rct) != (True, True):
             for k, mv in delta.items():
                 if key_lst[k]:
@@ -65,7 +81,7 @@ def main():
 
 
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img, kk_rct)  # 練習３
+        screen.blit(kk_img_def, kk_rct)  #練習３
         bb_rct.move_ip(vx, vy)
         yoko, tate = check_bound(screen.get_rect(), bb_rct)
         if not yoko:  # 横方向にはみ出していたら
@@ -73,12 +89,13 @@ def main():
         if not tate:  # 縦方向にはみだしていたら
             vy *= -1
         screen.blit(bb_img, bb_rct)
+
         if kk_rct.colliderect(bb_rct):
+            screen.blit(kk_img_ov,[600,50])
+            pg.display.update()
+            time.sleep(3)
             return
         
-
-
-
         pg.display.update()
         clock.tick(1000)
 
