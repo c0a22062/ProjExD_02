@@ -45,6 +45,7 @@ def main():
     kk_img_ld = pg.transform.rotozoom(kk_img_rev, -45, 2.0)
     kk_img_d = pg.transform.rotozoom(kk_img, 90, 2.0)
 
+
     kk_rct = kk_img_def.get_rect()
     kk_rct.center = (900, 400)
 
@@ -81,7 +82,7 @@ def main():
 
 
         screen.blit(bg_img, [0, 0])
-        screen.blit(kk_img_def, kk_rct)  #練習３
+        screen.blit(kk_img_def, kk_rct)  #練習 ３
         bb_rct.move_ip(vx, vy)
         yoko, tate = check_bound(screen.get_rect(), bb_rct)
         if not yoko:  # 横方向にはみ出していたら
