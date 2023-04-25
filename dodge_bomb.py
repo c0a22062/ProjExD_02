@@ -5,7 +5,7 @@ import time
 
 
 delta = {
-        pg.K_UP: (0, -1),
+        pg.K_UP: (0, -1),  #方向キーを押したときの移動値の辞書
         pg.K_DOWN: (0, +1),
         pg.K_RIGHT: (+1, 0),
         pg.K_LEFT: (-1, 0)
@@ -95,7 +95,7 @@ def main():
             screen.blit(kk_img_ov,[600,50])
             pg.display.update()
             time.sleep(3)
-            return
+            return  # 練習６
         
         pg.display.update()
         clock.tick(1000)
